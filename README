@@ -1,0 +1,109 @@
+
+# GitHub Workflow Grading Script
+
+This script automates the grading process by integrating student repositories with workflow statuses from GitHub and a CSV file containing grade data. The script compares GitHub workflow results with student grades, allowing for automatic grading based on test success or failure.
+
+## Features
+
+- Loads student information from a CSV file that maps GitHub usernames to repository names.
+- Loads grade data from CSV files for different sections of the course.
+- Matches students based on their roster identifiers and GitHub usernames.
+- Automatically checks the latest GitHub workflow run status for each student's repository.
+- Prompts for grade input based on test success or failure.
+- Updates the grade CSV file with the recorded grades.
+
+## Requirements
+
+- Python 3.x
+- Required packages:
+  - `PyGithub`: Install using `pip install PyGithub`
+  - `requests`
+  - `csv`
+  - `logging`
+  - `os`
+  - `zipfile`
+  - `io`
+
+## Installation
+
+1. Clone this repository.
+   ```bash
+   git clone https://github.com/CSC241Fall24/your-repo.git
+   cd your-repo
+   ```
+
+2. Install required Python packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Set your GitHub token as an environment variable:
+   ```bash
+   export GITHUB_TOKEN=<your-github-token>
+   ```
+
+## Configuration
+
+Ensure that the following configurations are set in the script:
+
+- **GITHUB_TOKEN**: Set your GitHub API token as an environment variable.
+- **REPO_OWNER**: Owner of the GitHub repositories.
+- **ASSIGNMENT_PREFIX**: Prefix used for assignments to identify repositories.
+- **GITHUB_CSV**: Path to the CSV file mapping GitHub usernames to repositories.
+- **GRADE_CSV_FILES**: List of CSV files containing student grades.
+- **GRADE_FIELD**: The specific grade field to be updated in the CSV file.
+
+## Usage
+
+1. Ensure you have the required CSV files in the proper format. You should have:
+   - A CSV file containing GitHub usernames, roster identifiers, and student repository names.
+   - CSV files containing grade data for each section of your course.
+
+2. Run the script:
+   ```bash
+   python script_name.py
+   ```
+
+3. Follow the prompts to either re-grade all students or only grade those without existing grades.
+
+4. The script will automatically fetch the latest GitHub workflow run for each student and update their grade based on whether the tests passed or failed.
+
+5. The script allows manual grade adjustments before writing to the CSV file.
+
+## How It Works
+
+- **load_github_data()**: Loads student GitHub usernames and repository information from a CSV file.
+- **load_grade_data()**: Loads grade information from multiple CSV files.
+- **match_students()**: Matches students based on their GitHub usernames and roster identifiers.
+- **check_repository_status()**: Checks the status of the latest GitHub workflow run for a student's repository.
+- **update_grade_csv()**: Updates the grade CSV file with the new grade.
+
+## Example CSV Format
+
+### GitHub CSV
+
+```csv
+github_username,roster_identifier,student_repository_name
+jdoe123,Doe, John,week2-jdoe123
+```
+
+### Grade CSV
+
+```csv
+OrgDefinedId,First Name,Last Name,homework1 Points Grade <Numeric MaxPoints:6 Category:Homework>
+123456789,John,Doe,5
+```
+
+## Logging
+
+The script logs all significant actions, including:
+- Matched and unmatched students.
+- Success or failure of GitHub workflows.
+- Recorded grades and skipped students.
+
+Log messages are written to the console and provide helpful debugging information if necessary.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
